@@ -1,0 +1,36 @@
+{
+  "name": "cyz-backend",
+  "version": "1.0.0",
+  "description": "Cyz app's backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec npm run babel-node -- ./src/index.js",
+    "babel-node": "babel-node --presets=env",
+    "build": "babel src --out-dir lib",
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cyz-Police/backend.git"
+  },
+  "author": "dq@bit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cyz-Police/backend/issues"
+  },
+  "homepage": "https://github.com/Cyz-Police/backend#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.10"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "nodemon": "^1.17.2"
+  }
+}
