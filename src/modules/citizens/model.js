@@ -33,16 +33,16 @@ CitizenSchema.statics.createOrUpdate = async function createOrUpdate(args) {
 		const citizen = await this.findOne({
 			personalId: args.personalId,
 		});
-		if (!citizen) {
+		if (!citizen) { // If citizen doesn't exists create one
 			return await this.create(args);
 		} else if (citizen.phoneNumber !== args.phoneNumber || citizen.adress !== args.adress) {
-			return await CitizenSchema.findOneAndUpdate(
+			return await CitizenSchema.findOneAndUpdate( // If citizen's properties has changed, update
 				{ personalId: args.personalId },
 				{ $set: { adress: args.adress, phoneNumber: args.phoneNumber } },
 				{ new: true },
 			);
 		}
-		return citizen;
+		return citizen; // If nothing has changed return citizen
 	} catch (e) {
 		return e;
 	}
