@@ -6,6 +6,7 @@ const TypeSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+	category: [{ types: Schema.Types.ObjectId, ref: 'Category' }],
 });
 
 export default mongoose.model('Type', TypeSchema);

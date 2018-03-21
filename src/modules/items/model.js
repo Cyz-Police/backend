@@ -5,6 +5,11 @@ const ItemSchema = new Schema({
 	author: [{ types: Schema.Types.ObjectId, ref: 'User' }],
 	type: [{ types: Schema.Types.ObjectId, ref: 'Type' }],
 	owner: [{ types: Schema.Types.ObjectId, ref: 'Citizen' }],
+	photo: {
+		type: String,
+		required: true,
+		unique: true,
+	},
 	extra: {
 		type: String,
 		required: false,
