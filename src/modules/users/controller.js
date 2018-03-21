@@ -1,7 +1,7 @@
 import User from './model';
 
 export const activateUser = async (req, res) => {
-	const { userId } = req.body.userId;
+	const  userId  = req.body.userId;
 
 	try {
 		await User.findByIdAndUpdate(
@@ -10,7 +10,7 @@ export const activateUser = async (req, res) => {
 		);
 		return res.status(201).json({ message: 'User was activated' });
 	} catch (e) {
-		return res.status(e.status).json({ error: true, message: 'Cant activate user' });
+		return res.status(404).json({ error: true, message: 'Cant activate user' });
 	}
 };
 
@@ -24,6 +24,6 @@ export const deactivateUser = async (req, res) => {
 		);
 		return res.status(201).json({ message: 'User was deactivated' });
 	} catch (e) {
-		return res.status(e.status).json({ error: true, message: 'Cant deactivate user' });
+		return res.status(404).json({ error: true, message: 'Cant deactivate user' });
 	}
 };

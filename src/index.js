@@ -1,4 +1,6 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
 import dbConfig from './config/db';
 import { UserRoutes } from './modules';
 
@@ -9,9 +11,11 @@ const app = express();
  */
 dbConfig();
 
-app.use('/api/', [UserRoutes]);
+app.use(bodyParser.json());
+app.use(morgan('dev'));
+app.use('/api', [UserRoutes]);
 
-const PORT = process.env || 3000;
+const PORT = 3000;
 
 app.listen(PORT, (err) => {
 	if (err) {
