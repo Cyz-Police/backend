@@ -21,14 +21,20 @@ export const createUser = async (req, res) => {
 	}
 };
 
+export const removeUser = async (req, res) => {
+	const { userId } = req.body;
+	try {
+		await User.removeUser(userId);
+		return res.status(201).json({ message: 'User was deleted' });
+	} catch (e) {
+		return res.status(404).json({ error: true, message: 'Can not delete user', err: e });
+	}
+};
+
 export const activateUser = async (req, res) => {
 	const { userId } = req.body;
-
 	try {
-		await User.findByIdAndUpdate(
-			{ _id: userId },
-			{ $set: { active: true } },
-		);
+		await User.activate(userId);
 		return res.status(201).json({ message: 'User was activated' });
 	} catch (e) {
 		return res.status(403).json({ error: true, message: 'Cant activate user' });
@@ -37,12 +43,8 @@ export const activateUser = async (req, res) => {
 
 export const deactivateUser = async (req, res) => {
 	const { userId } = req.body;
-
 	try {
-		await User.findByIdAndUpdate(
-			{ _id: userId },
-			{ $set: { active: false } },
-		);
+		await User.deactivate(userId);
 		return res.status(201).json({ message: 'User was deactivated' });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Cant deactivate user' });
