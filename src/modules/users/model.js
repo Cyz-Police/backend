@@ -31,16 +31,16 @@ const UserSchema = new Schema({
 	},
 });
 
-UserSchema.statics.removeUser = function (id) {
-	return this.findByIdAndRemove(id).exec();
+UserSchema.static.removeUser = function (id) {
+	return this.find({ _id: id }).remove().exec();
 };
 
 UserSchema.statics.activate = function (id) {
-	return this.findByIdAndUpdate({ _id: id }, { $set: { active: true } }).exec();
+	return this.findByIdAndUpdate(id, { $set: { active: true } }).exec();
 };
 
 UserSchema.statics.deactivate = function (id) {
-	return this.findByIdAndUpdate({ _id: id }, { $set: { active: false } }).exec();
+	return this.findByIdAndUpdate(id, { $set: { active: false } }).exec();
 };
 
 export default mongoose.model('User', UserSchema);

@@ -19,11 +19,10 @@ export const createCitizen = async (req, res) => {
 
 export const updateCitizen = async (req, res) => {
 	const {
-		fullName, adress, phoneNumber,
+		citizenId, fullName, adress, phoneNumber,
 	} = req.body;
-
 	try {
-		await Citizen.update(fullName, adress, phoneNumber);
+		await Citizen.update(citizenId, fullName, adress, phoneNumber);
 		return res.status(201).json({ message: 'Citizen was updated' });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not update citizen' });

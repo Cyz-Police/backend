@@ -29,10 +29,10 @@ const CitizenSchema = new Schema({
 	},
 });
 
-CitizenSchema.statics.update = function (args) {
-	this.findOneAndUpdate(
-		{ _id: args.id },
-		{ $set: { fullName: args.fullName, adress: args.adress, phoneNumber: args.phoneNumber } },
+CitizenSchema.statics.update = function (citizenId, fullname, citizenAdress, phonenumber) {
+	return this.findByIdAndUpdate(
+		citizenId,
+		{ $set: { fullName: fullname, adress: citizenAdress, phoneNumber: phonenumber } },
 	).exec();
 };
 
