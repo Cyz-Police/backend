@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from './model';
+import County from '../countys';
 
 export const createUser = async (req, res) => {
 	const {
@@ -48,5 +49,14 @@ export const deactivateUser = async (req, res) => {
 		return res.status(201).json({ message: 'User was deactivated' });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Cant deactivate user' });
+	}
+};
+
+export const getUserCountyId = async (id) => {
+	try {
+		const userCountyID = await this.getUserCountyId(id);
+		return await County.getUserCountyId(userCountyID);
+	} catch (e) {
+		return false;
 	}
 };

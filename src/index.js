@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import morgan from 'morgan';
 import dbConfig from './config/db';
-import { UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes } from './modules';
+import { UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes, CategoryRoutes } from './modules';
 
 const app = express();
 
@@ -15,7 +15,7 @@ dbConfig();
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(morgan('dev'));
-app.use('/api', [UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes]);
+app.use('/api', [UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes, CategoryRoutes]);
 
 const PORT = 3000;
 
@@ -26,4 +26,3 @@ app.listen(PORT, (err) => {
 		console.log('App is working');
 	}
 });
-

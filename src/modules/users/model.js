@@ -59,4 +59,8 @@ UserSchema.static.promoteToUser = function (id) {
 	return this.findByIdAndUpdate(id, { $set: { role: '[USER]' } }).exec();
 };
 
+UserSchema.static.getUserCountyID = function (id) {
+	return this.findOne(id, { county: 1, _id: 0 }).exec();
+};
+
 export default mongoose.model('User', UserSchema);

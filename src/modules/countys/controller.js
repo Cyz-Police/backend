@@ -1,8 +1,8 @@
 import County from './model';
 
 export const createCounty = async (req, res) => {
-	const { name } = req.body;
-	const newCounty = new County({ name });
+	const { name, assignedId } = req.body;
+	const newCounty = new County({ name, assignedId });
 	try {
 		return res.status(201).json({ message: 'County was created', couty: newCounty.save() });
 	} catch (e) {
