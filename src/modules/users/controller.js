@@ -3,7 +3,7 @@ import User from './model';
 
 export const createUser = async (req, res) => {
 	const {
-		cardId, fullName, email, passwordCandidate,
+		cardId, fullName, email, county, passwordCandidate,
 	} = req.body;
 
 	const role = '[USER]';
@@ -11,7 +11,7 @@ export const createUser = async (req, res) => {
 	const password = bcrypt.hashSync(passwordCandidate, 16); // Hashing password
 
 	const newUser = new User({
-		cardId, fullName, email, password, role, active,
+		cardId, fullName, email, county, password, role, active,
 	});
 
 	try {

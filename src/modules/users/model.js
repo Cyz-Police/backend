@@ -1,5 +1,4 @@
 /* eslint func-names: ["error", "never"] */
-
 import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
@@ -16,6 +15,11 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 		unique: true,
+	},
+	county: {
+		type: Schema.Types.ObjectId,
+		ref: 'County',
+		required: true,
 	},
 	password: {
 		type: String,
@@ -41,6 +45,18 @@ UserSchema.statics.activate = function (id) {
 
 UserSchema.statics.deactivate = function (id) {
 	return this.findByIdAndUpdate(id, { $set: { active: false } }).exec();
+};
+
+UserSchema.statics.promoteToAdmin = function (id) {
+	return this.findByIdAndUpdate(id, { $set: { role: '[ADMIN]' } }).exec();
+};
+
+UserSchema.statics.promoteToSuperUser = function (id) {
+	return this.findByIdAndUpdate(id, { $set: { role: '[SUPER]' } }).exec();
+};
+
+UserSchema.static.promoteToUser = function (id) {
+	return this.findByIdAndUpdate(id, { $set: { role: '[USER]' } }).exec();
 };
 
 export default mongoose.model('User', UserSchema);

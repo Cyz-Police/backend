@@ -8,7 +8,7 @@
     "dev": "nodemon --exec npm run babel-node -- ./src/index.js",
     "babel-node": "babel-node --presets=env",
     "build": "babel src --out-dir lib",
-    "start": ""
+    "start": "node ./lib/index.js"
   },
   "repository": {
     "type": "git",
