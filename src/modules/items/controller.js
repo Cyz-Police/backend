@@ -24,9 +24,8 @@ const getUserCountyId = async (id) => {
 
 const getMarkId = async (authorId) => {
 	const currentYear = new Date().getFullYear;
-	const coutyId = getUserCountyId(authorId);
-	const counter = Counter.getNextSequence(currentYear);
+	const coutyId = await getUserCountyId(authorId);
+	const counter = await Counter.getNextSequence(currentYear);
 	const lastDidgits = currentYear.slice(-2);
-
 	return `${coutyId}-${counter}-${lastDidgits}`;
 };
