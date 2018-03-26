@@ -1,3 +1,4 @@
+/* eslint func-names: ["error", "never"] */
 import mongoose, { Schema } from 'mongoose';
 
 const ItemSchema = new Schema({

@@ -1,6 +1,9 @@
+/* eslint prefer-template: "error" */
+/* eslint-env es6 */
 import Item from './model';
 import { User } from '../users';
 import { County } from '../countys';
+import { Counter } from '../counters';
 
 export const createItem = async (req, res) => {
 	const { category, author, type, owner, photo, extra } = req.body;
@@ -20,5 +23,10 @@ const getUserCountyId = async (id) => {
 };
 
 const getMarkId = async (authorId) => {
+	const currentYear = new Date().getFullYear;
 	const coutyId = getUserCountyId(authorId);
+	const counter = Counter.getNextSequence(currentYear);
+	const lastDidgits = currentYear.slice(-2);
+
+	return `${coutyId}-${counter}-${lastDidgits}`;
 };
