@@ -1,5 +1,5 @@
 /* eslint prefer-template: "error" */
-/* eslint-env es6 */
+/* eslint func-names: ["error", "never"] */
 import Item from './model';
 import { User } from '../users';
 import { County } from '../countys';
@@ -31,15 +31,27 @@ const getMarkId = async (authorId) => {
 
 const createItem = async (req, res) => {
 	const {
+<<<<<<< HEAD
 		category, author, type, owner, photo, extra,
 	} = req.body;
 
 	const markId = await getMarkId(author);
+=======
+		category,
+		author,
+		type,
+		owner,
+		photo,
+		extra,
+	} = req.body;
+	const markId = getMarkId(author);
+>>>>>>> df7a137ba8d7da64424e4d165e9ebef83ddbb04d
 
 	const newItem = new Item({
 		category, author, type, owner, photo, extra, markId,
 	});
 
+<<<<<<< HEAD
 	console.log(newItem);
 
 	try {
@@ -48,6 +60,13 @@ const createItem = async (req, res) => {
 	} catch (e) {
 		console.log(e);
 		return res.status(404).json({ error: true, message: 'Can not create new item ' });
+=======
+	try {
+		await newItem.save();
+		return res.status(201).json({ message: 'Item was created', id: markId });
+	} catch (e) {
+		return res.status(404).json({ error: true, message: 'Can not create item' });
+>>>>>>> df7a137ba8d7da64424e4d165e9ebef83ddbb04d
 	}
 };
 
