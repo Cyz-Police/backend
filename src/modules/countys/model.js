@@ -18,7 +18,7 @@ CountySchema.statics.update = function (id, newName) {
 	return this.findByIdAndUpdate(id, { $set: { name: newName } }).exec();
 };
 
-CountySchema.static.getAssignedId = async function (id) {
+CountySchema.statics.getAssignedId = async function (id) {
 	return this.findOne(id, { assignedId: 1, _id: 0 }).exec();
 };
 

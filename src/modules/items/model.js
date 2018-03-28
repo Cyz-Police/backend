@@ -32,11 +32,9 @@ const ItemSchema = new Schema({
 		required: false,
 	},
 	markId: {
-		type: Number,
+		type: String,
 		required: true,
-		validate: {
-			validator: Number.isInteger,
-		},
+		unique: true,
 	},
 }, { timestamps: true });
 
