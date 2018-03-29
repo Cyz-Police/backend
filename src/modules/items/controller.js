@@ -5,25 +5,17 @@ import { User } from '../users';
 import { County } from '../countys';
 import { Counter } from '../counters';
 
-const getUserCountyId = async (id) => {
+const getMarkId = async (authorId) => {
 	try {
-		const countyId = await User.getUserCountyId(id);
-		console.log(countyId);
-		return County.getAssignedId(countyId);
+		const year = new Date().getFullYear().toString();
+		const countyId = await User.getUserCountyId(authorId);
+		const countyAssignedId = await County.getAssignedId(countyId);
+		const counter = await Counter.getNextSequence(year, countyId);
+		const formatedCounter = '0'.repeat(5 - counter.length) + counter;
+		return `${countyAssignedId}-${formatedCounter}-${year.slice(-2)}`;
 	} catch (e) {
 		return false;
 	}
-};
-
-const getMarkId = async (authorId) => {
-	const year = new Date().getFullYear();
-	const currentYear = year.toString();
-	const countyID = await User.getUserCountyId(authorId);
-	const coutyId = await getUserCountyId(authorId);
-	const counter = await Counter.getNextSequence(currentYear, countyID);
-	const formatedCounter = '0'.repeat(5 - counter.length) + counter;
-	const lastDidgits = currentYear.slice(-2);
-	return `${coutyId}-${formatedCounter}-${lastDidgits}`;
 };
 
 const createItem = async (req, res) => {
@@ -38,7 +30,7 @@ const createItem = async (req, res) => {
 	});
 
 	try {
-		await newItem.save();
+		await newItem.validate();
 		return res.status(201).json({ message: 'Item was created', mark: markId });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not create new item ' });

@@ -60,7 +60,7 @@ UserSchema.statics.promoteToUser = function (id) {
 };
 
 UserSchema.statics.getUserCountyId = function (id) {
-	return this.findById(id).exec().then((err, user) => user.county);
+	return this.findById(id).exec().then(user => user.county);
 };
 
 export default mongoose.model('User', UserSchema);
