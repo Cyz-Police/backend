@@ -59,8 +59,8 @@ UserSchema.statics.promoteToUser = function (id) {
 	return this.findByIdAndUpdate(id, { $set: { role: '[USER]' } }).exec();
 };
 
-UserSchema.statics.getUserCountyId = async function (id) {
-	return this.findById(id, { county: 1, _id: 0 }).exec();
+UserSchema.statics.getUserCountyId = function (id) {
+	return this.findById(id).exec().then((err, user) => user.county);
 };
 
 export default mongoose.model('User', UserSchema);
