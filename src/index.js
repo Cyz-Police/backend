@@ -1,8 +1,6 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import passport from 'passport';
-import morgan from 'morgan';
 import dbConfig from './config/db';
+import middlewaresConfig from './config/middlewares';
 import { UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes, CategoryRoutes, ItemRoutes } from './modules';
 
 const app = express();
@@ -12,9 +10,11 @@ const app = express();
  */
 dbConfig();
 
-app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(morgan('dev'));
+/**
+ * Middlewares
+ */
+middlewaresConfig(app);
+
 app.use('/api', [UserRoutes, CitizenRoutes, CountyRoutes, TypeRoutes, CategoryRoutes, ItemRoutes]);
 
 const PORT = 3000;

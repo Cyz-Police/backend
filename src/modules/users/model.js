@@ -63,4 +63,8 @@ UserSchema.statics.getUserCountyId = function (id) {
 	return this.findById(id).exec().then(user => user.county);
 };
 
+UserSchema.statics.findByEmail = function (userEmail) {
+	return this.findOne({ email: userEmail });
+};
+
 export default mongoose.model('User', UserSchema);

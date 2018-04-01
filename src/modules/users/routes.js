@@ -7,5 +7,6 @@ routes.post('/user/activate', UserController.activateUser);
 routes.post('/user/deactivate', UserController.deactivateUser);
 routes.post('/user/create', UserController.createUser);
 routes.post('/user/remove', UserController.removeUser);
+routes.post('/user/authenticate', UserController.authenticateUser);
 
 export default routes;

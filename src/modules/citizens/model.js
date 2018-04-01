@@ -36,4 +36,8 @@ CitizenSchema.statics.update = function (citizenId, fullname, citizenAdress, pho
 	).exec();
 };
 
+CitizenSchema.static.findByPersonalId = function (personalID) {
+	return this.findOne({ personalId: personalID });
+};
+
 export default mongoose.model('Citizen', CitizenSchema);
