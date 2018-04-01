@@ -1,15 +1,15 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import User from '../modules/users';
+import { User } from '../modules/users';
 import config from './config';
 
 const JwtOpts = {
-	jwtFromRequest: ExtractJwt.fromAuthHeader(),
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: config.SECRET,
 };
 
 const jwtUser = new Strategy(JwtOpts, async (payload, done) => {
 	try {
-		const user = await User.findById(payload.sub);
+		const user = await User.findById(payload.id);
 		if (!user) {
 			return done(null, false);
 		} else if (user.active === false) {
@@ -25,7 +25,7 @@ const jwtUser = new Strategy(JwtOpts, async (payload, done) => {
 
 const jwtAdmin = new Strategy(JwtOpts, async (payload, done) => {
 	try {
-		const user = await User.findById(payload.sub);
+		const user = await User.findById(payload.id);
 		if (!user) {
 			return done(null, false);
 		} else if (user.active === false) {
@@ -41,7 +41,7 @@ const jwtAdmin = new Strategy(JwtOpts, async (payload, done) => {
 
 const jwtSuperadmin = new Strategy(JwtOpts, async (payload, done) => {
 	try {
-		const user = await User.findById(payload.sub);
+		const user = await User.findById(payload.id);
 		if (!user) {
 			return done(null, false);
 		} else if (user.active === false) {
