@@ -1,4 +1,4 @@
-![](https://i.imgur.com/vjgYwoC.jpg)
+![](https://i.imgur.com/hRHW22d.jpg)
 #### čyz app's backend server
 
 ----
