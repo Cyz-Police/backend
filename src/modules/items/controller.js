@@ -1,14 +1,12 @@
-/* eslint prefer-template: "error" */
-/* eslint func-names: ["error", "never"] */
 import Item from './model';
+import json2csv from '../../config/csvConverter';
 import { User } from '../users';
 import { County } from '../countys';
 import { Counter } from '../counters';
 
-const getMarkId = async (authorId) => {
+const getMarkId = async (countyId) => {
 	try {
 		const year = new Date().getFullYear().toString();
-		const countyId = await User.getUserCountyId(authorId);
 		const countyAssignedId = await County.getAssignedId(countyId);
 		const counter = await Counter.getNextSequence(year, countyId);
 		const formatedCounter = '0'.repeat(5 - counter.length) + counter;
@@ -18,23 +16,38 @@ const getMarkId = async (authorId) => {
 	}
 };
 
-const createItem = async (req, res) => {
+export const createItem = async (req, res) => {
 	const {
 		category, author, type, owner, photo, extra,
 	} = req.body;
-
-	const markId = await getMarkId(author);
-
-	const newItem = new Item({
-		category, author, type, owner, photo, extra, markId,
-	});
-
+	const date = new Date();
 	try {
-		await newItem.validate();
+		const countyCreated = await User.getUserCountyId(author);
+		const markId = await getMarkId(countyCreated);
+		const newItem = new Item({
+			category, author, type, owner, photo, extra, markId, countyCreated, date,
+		});
+		await newItem.save();
 		return res.status(201).json({ message: 'Item was created', mark: markId });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not create new item ' });
 	}
 };
 
-export default createItem;
+export const makeCsv = async (req, res) => {
+	try {
+		const userCountyId = await User.getUserCountyId(req.user.id);
+		const data = await Item.find({ countyCreated: userCountyId })
+			.populate('author', 'fullName')
+			.populate('category', 'title')
+			.populate('category', 'title')
+			.populate('type', 'title')
+			.populate('owner')
+			.exec();
+		res.setHeader('Content-Type', 'text/csv', 'charset=utf-8');
+		res.attachment('Data.csv');
+		return res.send(json2csv(data));
+	} catch (e) {
+		return res.status(404).json({ error: true, message: 'a' });
+	}
+};

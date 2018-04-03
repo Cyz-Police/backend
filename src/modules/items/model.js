@@ -36,6 +36,15 @@ const ItemSchema = new Schema({
 		required: true,
 		unique: true,
 	},
-}, { timestamps: true });
+	countyCreated: {
+		type: Schema.Types.ObjectId,
+		ref: 'County',
+		required: true,
+	},
+	date: {
+		type: Date,
+		required: true,
+	},
+});
 
 export default mongoose.model('Item', ItemSchema);
