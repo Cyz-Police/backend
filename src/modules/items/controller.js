@@ -1,3 +1,4 @@
+import moment from 'moment';
 import Item from './model';
 import json2csv from '../../config/csvConverter';
 import { User } from '../users';
@@ -20,7 +21,7 @@ export const createItem = async (req, res) => {
 	const {
 		category, author, type, owner, photo, extra,
 	} = req.body;
-	const date = new Date();
+	const date = moment().format('YYYY-MM-DD');
 	try {
 		const countyCreated = await User.getUserCountyId(author);
 		const markId = await getMarkId(countyCreated);

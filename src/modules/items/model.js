@@ -40,11 +40,12 @@ const ItemSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'County',
 		required: true,
+		index: true,
 	},
 	date: {
-		type: Date,
+		type: String,
 		required: true,
 	},
-});
+}, { timestamps: true });
 
 export default mongoose.model('Item', ItemSchema);
