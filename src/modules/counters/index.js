@@ -1,3 +1,3 @@
 import Counter from './model';
 
-export { Counter };
+export default { Counter };
