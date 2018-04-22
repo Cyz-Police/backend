@@ -24,6 +24,7 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true,
+		select: false,
 	},
 	role: {
 		type: String,
@@ -61,6 +62,10 @@ UserSchema.statics.promoteToUser = function (id) {
 
 UserSchema.statics.getUserCountyId = function (id) {
 	return this.findById(id).exec().then(user => user.county);
+};
+
+UserSchema.statics.changeRole = function (id, role) {
+	return this.findByIdAndUpdate(id, { $set: { role } }).exec();
 };
 
 UserSchema.statics.findByEmail = function (userEmail) {

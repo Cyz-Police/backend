@@ -70,6 +70,18 @@ export const deactivateUser = async (req, res) => {
 	}
 };
 
+export const changeUsersRole = async (req, res) => {
+	const { userId, role } = req.body;
+	try {
+		if (role === '[USER]' || role === '[ADMIN]' || role === '[SUPERADMIN]') {
+			await User.changeRole(userId, role);
+			return res.status(201).json({ message: "User's role was changed" });
+		} throw new Error();
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Can not update users role' });
+	}
+};
+
 export const getUserCountyId = async (id) => {
 	try {
 		const userCountyID = await this.getUserCountyId(id);
@@ -87,5 +99,14 @@ export const validateUser = async (id, role) => {
 		} return false;
 	} catch (e) {
 		return false;
+	}
+};
+
+export const getAllUsers = async (req, res) => {
+	try {
+		const users = await User.find({});
+		return res.status(201).json(users);
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Cannot detch users' });
 	}
 };

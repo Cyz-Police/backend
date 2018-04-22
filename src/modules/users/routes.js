@@ -4,10 +4,11 @@ import * as UserController from './controller';
 
 const routes = new Router();
 
-routes.post('/user/activate', passport.authenticate('ADMIN', { session: false }), UserController.activateUser);
+routes.post('/user/activate', UserController.activateUser);
 routes.post('/user/deactivate', UserController.deactivateUser);
 routes.post('/user/create', UserController.createUser);
-routes.post('/user/remove', UserController.removeUser);
+routes.post('/user/changeRole', UserController.changeUsersRole);
 routes.post('/user/authenticate', UserController.authenticateUser);
+routes.get('/user/getAll', UserController.getAllUsers);
 
 export default routes;
