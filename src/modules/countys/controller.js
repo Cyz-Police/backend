@@ -19,3 +19,12 @@ export const updateCounty = async (req, res) => {
 		return res.status(404).json({ error: true, message: 'Can not create county' });
 	}
 };
+
+export const getAllCounties = async (req, res) => {
+	try {
+		const counties = await County.find({});
+		return res.status(201).json(counties);
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Can not fetch counties' });
+	}
+};
