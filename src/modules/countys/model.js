@@ -2,7 +2,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const CountySchema = new Schema({
-	name: {
+	title: {
 		type: String,
 		required: true,
 		unique: true,
@@ -14,8 +14,8 @@ const CountySchema = new Schema({
 	},
 });
 
-CountySchema.statics.update = function (id, newName) {
-	return this.findByIdAndUpdate(id, { $set: { name: newName } }).exec();
+CountySchema.statics.update = function (id, title) {
+	return this.findByIdAndUpdate(id, { $set: { title } }).exec();
 };
 
 CountySchema.statics.getAssignedId = async function (id) {
