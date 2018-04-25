@@ -19,8 +19,9 @@ const getMarkId = async (countyId) => {
 
 export const createItem = async (req, res) => {
 	const {
-		category, author, type, owner, photo, extra,
+		category, type, owner, photo, extra,
 	} = req.body;
+	const author = req.user.id;
 	const date = moment().format('YYYY-MM-DD');
 	try {
 		const countyCreated = await User.getUserCountyId(author);
