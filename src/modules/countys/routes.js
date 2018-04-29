@@ -6,7 +6,8 @@ const routes = new Router();
 
 routes.post('/county/create', CountyController.createCounty);
 routes.post('/county/update', CountyController.updateCounty);
-routes.post('/county/validate', CountyController.validateCounty);
+routes.post('/county/validateTitle', CountyController.validateCountyTitle);
+routes.post('/county/validateId', CountyController.validateCountyId);
 routes.get('/county/getAll', CountyController.getAllCounties);
 
 export default routes;

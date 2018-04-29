@@ -20,13 +20,23 @@ export const updateCounty = async (req, res) => {
 	}
 };
 
-export const validateCounty = async (req, res) => {
+export const validateCountyTitle = async (req, res) => {
 	const { title } = req.body;
 	County.find({ title }).exec((err, counties) => {
 		if (err) return res.status(400).json({ error: true, message: 'Error while validating county' });
 		if (!counties.length) {
 			return res.status(200).json({ message: 'Can update with this title' });
-		} return res.status(200).json({ error: true, message: 'Countie with this title exicts' });
+		} return res.status(200).json({ error: true, message: 'County with this title exicts' });
+	});
+};
+
+export const validateCountyId = async (req, res) => {
+	const { id } = req.body;
+	County.find({ assignedId: id }).exec((err, counties) => {
+		if (err) return res.status(400).json({ error: true, message: 'Error while validating county' });
+		if (!counties.length) {
+			return res.status(200).json({ message: 'Can update with this id' });
+		} return res.status(200).json({ error: true, message: 'County with this id exicts' });
 	});
 };
 
