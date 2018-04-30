@@ -23,3 +23,11 @@ export const updateCategory = async (req, res) => {
 	}
 };
 
+export const getAllCategories = async (req, res) => {
+	try {
+		const categories = await Category.find({});
+		return res.status(200).json(categories);
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Can not retrieve categories' });
+	}
+};

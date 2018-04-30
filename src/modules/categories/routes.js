@@ -6,5 +6,6 @@ const routes = new Router();
 
 routes.post('/category/create', CategoryController.createCategory);
 routes.post('/category/update', CategoryController.updateCategory);
+routes.get('/category/getAll', CategoryController.getAllCategories);
 
 export default routes;
