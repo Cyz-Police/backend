@@ -31,3 +31,13 @@ export const getAllCategories = async (req, res) => {
 		return res.status(400).json({ error: true, message: 'Can not retrieve categories' });
 	}
 };
+
+export const validateCategoryTitle = async (req, res) => {
+	const { title } = req.body;
+	Category.find({ title }).exec((err, categories) => {
+		if (err) return res.status(400).json({ error: true, message: 'Error while validating category' });
+		if (!categories.length) {
+			return res.status(200).json({ message: 'Can update with this title' });
+		} return res.status(200).json({ error: true, message: 'Category with this title exists' });
+	});
+};
