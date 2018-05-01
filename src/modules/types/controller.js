@@ -24,3 +24,12 @@ export const updateType = async (req, res) => {
 		return res.status(404).json({ error: true, message: 'Can not update type' });
 	}
 };
+
+export const getAllTypes = async (req, res) => {
+	try {
+		const types = await Type.find({});
+		return res.status(200).json(types);
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Can not fetch all types' });
+	}
+};
