@@ -6,6 +6,7 @@ const TypeSchema = new Schema({
 		type: String,
 		required: true,
 		unique: true,
+		lowercase: true,
 	},
 	category: {
 		type: Schema.Types.ObjectId,

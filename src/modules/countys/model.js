@@ -6,6 +6,7 @@ const CountySchema = new Schema({
 		type: String,
 		required: true,
 		unique: true,
+		lowercase: true,
 	},
 	assignedId: {
 		type: Number,

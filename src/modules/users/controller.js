@@ -8,12 +8,10 @@ export const createUser = async (req, res) => {
 	const {
 		cardId, fullName, email, county, passwordCandidate,
 	} = req.body;
-	const role = '[USER]';
-	const active = false;
 	try {
 		const password = bcrypt.hashSync(passwordCandidate, 16); // Hashing password
 		const newUser = new User({
-			cardId, fullName, email, county, password, role, active,
+			cardId, fullName, email, county, password,
 		});
 		return res.status(201).json({ user: await newUser.save() });
 	} catch (e) {

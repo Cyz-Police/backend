@@ -2,14 +2,10 @@
 import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
-	cardId: {
-		type: String,
-		required: true,
-		unique: true,
-	},
 	fullName: {
 		type: String,
 		required: true,
+		lowercase: true,
 	},
 	email: {
 		type: String,
@@ -28,11 +24,11 @@ const UserSchema = new Schema({
 	},
 	role: {
 		type: String,
-		required: true,
+		default: '[USER]',
 	},
 	active: {
 		type: Boolean,
-		required: true,
+		default: false,
 	},
 });
 

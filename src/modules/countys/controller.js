@@ -11,9 +11,9 @@ export const createCounty = async (req, res) => {
 };
 
 export const updateCounty = async (req, res) => {
-	const { Id, title } = req.body;
+	const { id, title } = req.body;
 	try {
-		await County.update(Id, title);
+		await County.update(id, title);
 		return res.status(201).json({ message: 'County was created' });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not update county' });
