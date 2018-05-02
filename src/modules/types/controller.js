@@ -11,7 +11,7 @@ export const createType = async (req, res) => {
 		await newType.save();
 		return res.status(201).json({ message: 'Type was created' });
 	} catch (e) {
-		return res.status(404).json({ error: true, message: 'Can not create type' });
+		return res.status(400).json({ error: true, message: 'Can not create type' });
 	}
 };
 
