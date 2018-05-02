@@ -33,3 +33,13 @@ export const getAllTypes = async (req, res) => {
 		return res.status(400).json({ error: true, message: 'Can not fetch all types' });
 	}
 };
+
+export const validateTypeTitle = async (req, res) => {
+	const { title } = req.body;
+	Type.find({ title }).exec((err, categories) => {
+		if (err) return res.status(400).json({ error: true, message: 'Error while validating type' });
+		if (!categories.length) {
+			return res.status(200).json({ message: 'Can update with this title' });
+		} return res.status(200).json({ error: true, message: 'Type with this title exists' });
+	});
+};
