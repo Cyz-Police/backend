@@ -8,6 +8,7 @@ routes.post('/user/deactivate', UserController.deactivateUser);
 routes.post('/user/create', UserController.createUser);
 routes.post('/user/changeRole', UserController.changeUsersRole);
 routes.post('/user/authenticate', UserController.authenticateUser);
+routes.post('/user/validateEmail', UserController.validateUserEmail);
 routes.get('/user/getAll', UserController.getAllUsers);
 
 export default routes;

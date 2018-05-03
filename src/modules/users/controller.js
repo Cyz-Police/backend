@@ -6,12 +6,12 @@ import County from '../countys';
 
 export const createUser = async (req, res) => {
 	const {
-		cardId, fullName, email, county, passwordCandidate,
+		fullName, email, county, passwordCandidate,
 	} = req.body;
 	try {
 		const password = bcrypt.hashSync(passwordCandidate, 16); // Hashing password
 		const newUser = new User({
-			cardId, fullName, email, county, password,
+			fullName, email, county, password,
 		});
 		return res.status(201).json({ user: await newUser.save() });
 	} catch (e) {
@@ -26,9 +26,10 @@ export const authenticateUser = async (req, res) => {
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {
 			return res.status(404).json({ error: true, message: 'Wrong email adress or password' });
+		} else if (!user.active) {
+			return res.status(404).json({ error: true, message: 'User is not activated' });
 		}
 		const payload = {
-			id: user.id,
 			fullName: user.fullName,
 		};
 		const token = await jwt.sign(payload, config.SECRET, { expiresIn: 86400 });
@@ -98,6 +99,19 @@ export const validateUser = async (id, role) => {
 	} catch (e) {
 		return false;
 	}
+};
+
+export const validateUserEmail = async (req, res) => {
+	const { email } = req.body;
+	if (email.substr(email.length - 12) !== '@policija.lt') {
+		return res.status(200).json({ error: true, message: 'Invalid email adress' });
+	}
+	User.find({ email }).exec((err, counties) => {
+		if (err) return res.status(400).json({ error: true, message: 'Error while validating email' });
+		if (!counties.length) {
+			return res.status(200).json({ message: 'Email is avalible' });
+		} return res.status(200).json({ error: true, message: 'This email adress is taken' });
+	});
 };
 
 export const getAllUsers = async (req, res) => {
