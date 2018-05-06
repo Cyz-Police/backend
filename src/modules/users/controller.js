@@ -8,6 +8,9 @@ export const createUser = async (req, res) => {
 	const {
 		fullName, email, county, passwordCandidate,
 	} = req.body;
+	if (email.substr(email.length - 12) !== '@policija.lt') {
+		return res.status(400).json({ error: true, message: 'Invalid email adress' });
+	}
 	try {
 		const password = bcrypt.hashSync(passwordCandidate, 16); // Hashing password
 		const newUser = new User({
@@ -15,7 +18,7 @@ export const createUser = async (req, res) => {
 		});
 		return res.status(201).json({ user: await newUser.save() });
 	} catch (e) {
-		return res.status(404).json({ error: true, message: 'Can not create user' });
+		return res.status(400).json({ error: true, message: 'Can not create user' });
 	}
 };
 
