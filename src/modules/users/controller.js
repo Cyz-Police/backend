@@ -25,20 +25,20 @@ export const createUser = async (req, res) => {
 export const authenticateUser = async (req, res) => {
 	const { email, password } = req.body;
 	try {
-		const user = await User.findByEmail(email);
+		const user = await User.findByEmail(email).select('+password');
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {
-			return res.status(404).json({ error: true, message: 'Wrong email adress or password' });
+			return res.status(400).json({ error: true, message: 'Wrong email adress or password' });
 		} else if (!user.active) {
-			return res.status(404).json({ error: true, message: 'User is not activated' });
+			return res.status(400).json({ error: true, message: 'User is not activated' });
 		}
 		const payload = {
 			fullName: user.fullName,
 		};
 		const token = await jwt.sign(payload, config.SECRET, { expiresIn: 86400 });
-		return res.status(201).json({ JWTtoken: token });
+		return res.status(201).json({ JWTtoken: token, role: user.role });
 	} catch (e) {
-		return res.status(404).json({ error: true, message: 'Wrong email adress or password' });
+		return res.status(400).json({ error: true, message: 'Wrong email adress or password' });
 	}
 };
 
