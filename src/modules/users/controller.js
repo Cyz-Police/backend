@@ -7,7 +7,7 @@ import County from '../countys';
 export const createUser = async (req, res) => {
 	const {
 		fullName, email, county, passwordCandidate,
-	} = req.body;
+	} = req.body.user;
 	if (email.substr(email.length - 12) !== '@policija.lt') {
 		return res.status(400).json({ error: true, message: 'Invalid email adress' });
 	}
@@ -23,7 +23,7 @@ export const createUser = async (req, res) => {
 };
 
 export const authenticateUser = async (req, res) => {
-	const { email, password } = req.body;
+	const { email, password } = req.body.user;
 	try {
 		const user = await User.findByEmail(email).select('+password');
 		const passwordMatch = await bcrypt.compare(password, user.password);
@@ -33,10 +33,13 @@ export const authenticateUser = async (req, res) => {
 			return res.status(400).json({ error: true, message: 'User is not activated' });
 		}
 		const payload = {
-			fullName: user.fullName,
+			user: {
+				fullName: user.fullName,
+				role: user.role,
+			},
 		};
 		const token = await jwt.sign(payload, config.SECRET, { expiresIn: 86400 });
-		return res.status(201).json({ JWTtoken: token, role: user.role });
+		return res.status(201).json({ token });
 	} catch (e) {
 		return res.status(400).json({ error: true, message: 'Wrong email adress or password' });
 	}
