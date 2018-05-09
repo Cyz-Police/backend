@@ -5,6 +5,7 @@
 
 Čyz - app designded to help Lithuania's police officers to mark citizens' property.
 
+----
 Built with: Node.js, Express.js, MongoDB
 
 ![](https://i.imgur.com/2yGuSaS.jpg)
