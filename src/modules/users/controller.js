@@ -128,3 +128,13 @@ export const getAllUsers = async (req, res) => {
 		return res.status(400).json({ error: true, message: 'Cannot detch users' });
 	}
 };
+
+export const getUsersByCounty = async (req, res) => {
+	const { county } = req.user;
+	try {
+		const users = await User.find({ county });
+		return res.status(200).json(users);
+	} catch (e) {
+		return res.status(400).json({ error: true, message: 'Can not fetch users' });
+	}
+}
