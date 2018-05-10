@@ -36,6 +36,7 @@ export const authenticateUser = async (req, res) => {
 			user: {
 				fullName: user.fullName,
 				role: user.role,
+				id: user.id,
 			},
 		};
 		const token = await jwt.sign(payload, config.SECRET, { expiresIn: 86400 });
@@ -137,4 +138,4 @@ export const getUsersByCounty = async (req, res) => {
 	} catch (e) {
 		return res.status(400).json({ error: true, message: 'Can not fetch users' });
 	}
-}
+};

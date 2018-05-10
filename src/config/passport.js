@@ -25,7 +25,8 @@ const jwtUser = new Strategy(JwtOpts, async (payload, done) => {
 
 const jwtAdmin = new Strategy(JwtOpts, async (payload, done) => {
 	try {
-		const user = await User.findById(payload.id);
+		console.log(payload);
+		const user = await User.findById(payload.user.id);
 		if (!user) {
 			return done(null, false);
 		} else if (user.active === false) {
