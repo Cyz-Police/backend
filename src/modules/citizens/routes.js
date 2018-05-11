@@ -4,8 +4,7 @@ import * as CitizenController from './controller';
 
 const routes = new Router();
 
-routes.post('/citizen/create', CitizenController.createCitizen);
-routes.post('/citizen/update', CitizenController.updateCitizen);
+routes.post('/citizen/createOrFetch', CitizenController.createOrFetch);
 routes.get('/citizen/getByPersonalId', CitizenController.findCitizenByPersonalId);
 
 export default routes;

@@ -6,15 +6,15 @@ import County from '../countys';
 
 export const createUser = async (req, res) => {
 	const {
-		fullName, email, county, passwordCandidate,
+		fullName, email, county, password,
 	} = req.body.user;
 	if (email.substr(email.length - 12) !== '@policija.lt') {
 		return res.status(400).json({ error: true, message: 'Invalid email adress' });
 	}
 	try {
-		const password = bcrypt.hashSync(passwordCandidate, 16); // Hashing password
+		const passwordHashed = await bcrypt.hashSync(password, 16); // Hashing password
 		const newUser = new User({
-			fullName, email, county, password,
+			fullName, email, county, password: passwordHashed,
 		});
 		return res.status(201).json({ user: await newUser.save() });
 	} catch (e) {
@@ -23,8 +23,8 @@ export const createUser = async (req, res) => {
 };
 
 export const authenticateUser = async (req, res) => {
-	const { email, password } = req.body.user;
 	try {
+		const { email, password } = req.body.user;
 		const user = await User.findByEmail(email).select('+password');
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {

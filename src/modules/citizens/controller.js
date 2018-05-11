@@ -1,32 +1,17 @@
 import Citizen from './model';
 
-export const createCitizen = async (req, res) => {
-	const {
-		personalId, fullName, adress, phoneNumber,
-	} = req.body;
-
-	const newCitizen = new Citizen({
-		personalId, fullName, adress, phoneNumber,
-	});
-
+export const createOrFetch = async (req, res) => {
+	const { personalId } = req.body;
 	try {
+		const ciztizen = await Citizen.findOne({ personalId });
+		if (ciztizen) {
+			return res.status(200).json({ message: 'Citizen allready exists', id: ciztizen.id });
+		}
+		const newCitizen = new Citizen({ personalId });
 		await newCitizen.save();
-		return res.status(201).json({ message: 'Citizen was created' });
+		return res.status(201).json({ message: 'Citizen was created', id: newCitizen.id });
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not create citizen' });
-	}
-};
-
-export const updateCitizen = async (req, res) => {
-	const {
-		citizenId, fullName, adress, phoneNumber,
-	} = req.body;
-
-	try {
-		await Citizen.update(citizenId, fullName, adress, phoneNumber);
-		return res.status(201).json({ message: 'Citizen was updated' });
-	} catch (e) {
-		return res.status(404).json({ error: true, message: 'Can not update citizen' });
 	}
 };
 
@@ -35,7 +20,7 @@ export const findCitizenByPersonalId = async (req, res) => {
 
 	try {
 		const citizen = await Citizen.findByPeronalId(personalId);
-		return res.status(201).json({ Citize: citizen });
+		return res.status(201).json(citizen);
 	} catch (e) {
 		return res.status(404).json({ error: true, message: 'Can not retrieve citizen' });
 	}

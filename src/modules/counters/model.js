@@ -17,21 +17,23 @@ const CounterSchema = new Schema({
 	},
 });
 
-CounterSchema.statics.getNextSequence = async function (Year, countyId) {
+CounterSchema.statics.getNextSequence = async function (year, county) {
 	try {
-		const counter = await this.findOne({ year: Year, county: countyId }).exec();
+		const counter = await this.findOne({ year, county }).exec();
 		if (!counter) {
 			const Counter = mongoose.model('Counter', CounterSchema);
-			const newCounter = new Counter({ year: Year, county: countyId, seq: 1 });
+			const newCounter = new Counter({ year, county, seq: 1 });
 			await newCounter.save();
 			return '1';
 		}
 		const ret = await this.findOneAndUpdate(
-			{ year: Year, county: countyId },
+			{ year, county },
 			{ $inc: { seq: 1 } },
 		).exec();
+		console.log(ret.seq.toString());
 		return ret.seq.toString();
 	} catch (e) {
+		console.log(e);
 		return false;
 	}
 };
