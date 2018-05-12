@@ -44,6 +44,7 @@ export const getItemById = async (req, res) => {
 			.populate('author', 'email')
 			.populate('category', 'title')
 			.populate('type', 'title')
+			.populate('countyCreated', 'title')
 			.populate('owner')
 			.exec();
 		return res.status(200).json(item);
