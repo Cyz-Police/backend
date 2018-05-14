@@ -15,14 +15,11 @@ const fields = [
 		value: 'extra',
 		default: '---',
 	}, {
-		label: 'Savininkas',
-		value: 'owner.fullName',
+		label: 'Savininko A.K.',
+		value: 'owner.personalId',
 	}, {
-		label: 'Telefono numeris',
-		value: 'owner.phoneNumber',
-	}, {
-		label: 'Pareigūnas',
-		value: 'author.fullName',
+		label: 'Pareigūno el. paštas',
+		value: 'author.email',
 	}, {
 		label: 'Sukūrimo data',
 		value: 'date',
