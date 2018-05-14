@@ -55,8 +55,9 @@ export const getItemById = async (req, res) => {
 
 export const makeCsv = async (req, res) => {
 	try {
+		const { dateFrom, dateTo } = req.params;
 		const userCountyId = await User.getUserCountyId(req.user.id);
-		const data = await Item.find({ countyCreated: userCountyId })
+		const data = await Item.find({ countyCreated: userCountyId, createdAt: { $gte: dateFrom, $lt: dateTo } })
 			.populate('author', 'fullName')
 			.populate('category', 'title')
 			.populate('category', 'title')
@@ -67,6 +68,7 @@ export const makeCsv = async (req, res) => {
 		res.attachment('Data.csv');
 		return res.send(json2csv(data));
 	} catch (e) {
-		return res.status(404).json({ error: true, message: 'a' });
+		console.log(e);
+		return res.status(400).json({ error: true, message: e });
 	}
 };
