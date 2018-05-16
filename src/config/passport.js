@@ -8,6 +8,7 @@ const JwtOpts = {
 };
 
 const jwtUser = new Strategy(JwtOpts, async (payload, done) => {
+	console.log(payload);
 	try {
 		const user = await User.findById(payload.id);
 		if (!user) {
@@ -24,8 +25,8 @@ const jwtUser = new Strategy(JwtOpts, async (payload, done) => {
 });
 
 const jwtAdmin = new Strategy(JwtOpts, async (payload, done) => {
+	console.log(payload);
 	try {
-		console.log(payload);
 		const user = await User.findById(payload.user.id);
 		if (!user) {
 			return done(null, false);

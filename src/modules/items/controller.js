@@ -68,7 +68,6 @@ export const makeCsv = async (req, res) => {
 		res.attachment('Data.csv');
 		return res.send(json2csv(data));
 	} catch (e) {
-		console.log(e);
 		return res.status(400).json({ error: true, message: e });
 	}
 };
