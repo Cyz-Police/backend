@@ -58,14 +58,12 @@ export const makeCsv = async (req, res) => {
 		const { dateFrom, dateTo } = req.params;
 		const userCountyId = await User.getUserCountyId(req.user.id);
 		const data = await Item.find({ countyCreated: userCountyId, createdAt: { $gte: dateFrom, $lt: dateTo } })
-			.populate('author', 'fullName')
+			.populate('author', 'email')
 			.populate('category', 'title')
 			.populate('category', 'title')
 			.populate('type', 'title')
 			.populate('owner')
 			.exec();
-		res.setHeader('Content-Type', 'text/csv', 'charset=utf-8');
-		res.attachment('Data.csv');
 		return res.send(json2csv(data));
 	} catch (e) {
 		return res.status(400).json({ error: true, message: e });
