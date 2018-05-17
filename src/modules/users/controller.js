@@ -39,7 +39,7 @@ export const authenticateUser = async (req, res) => {
 				id: user.id,
 			},
 		};
-		const token = await jwt.sign(payload, config.SECRET, { expiresIn: 86400 });
+		const token = await jwt.sign(payload, config.SECRET, { expiresIn: '5d' });
 		return res.status(201).json({ token });
 	} catch (e) {
 		return res.status(400).json({ error: true, message: 'Wrong email adress or password' });
