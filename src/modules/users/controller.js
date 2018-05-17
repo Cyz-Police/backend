@@ -57,22 +57,26 @@ export const removeUser = async (req, res) => {
 };
 
 export const activateUser = async (req, res) => {
+	const { id } = req.user;
 	const { userId } = req.body;
 	try {
+		if (userId === id) throw new Error();
 		await User.activate(userId);
 		return res.status(201).json({ message: 'User was activated' });
 	} catch (e) {
-		return res.status(403).json({ error: true, message: 'Cant activate user' });
+		return res.status(400).json({ error: true, message: 'Cant activate user' });
 	}
 };
 
 export const deactivateUser = async (req, res) => {
-	const { userId } = req.body;
 	try {
+		const { id } = req.user;
+		const { userId } = req.body;
+		if (userId === id) throw new Error();
 		await User.deactivate(userId);
 		return res.status(201).json({ message: 'User was deactivated' });
 	} catch (e) {
-		return res.status(404).json({ error: true, message: 'Cant deactivate user' });
+		return res.status(400).json({ error: true, message: 'Cant deactivate user' });
 	}
 };
 
@@ -113,17 +117,18 @@ export const validateUserEmail = async (req, res) => {
 	if (email.substr(email.length - 12) !== '@policija.lt') {
 		return res.status(200).json({ error: true, message: 'Invalid email adress' });
 	}
-	User.find({ email }).exec((err, counties) => {
+	User.find({ email }).exec((err, users) => {
 		if (err) return res.status(400).json({ error: true, message: 'Error while validating email' });
-		if (!counties.length) {
+		if (!users.length) {
 			return res.status(200).json({ message: 'Email is avalible' });
 		} return res.status(200).json({ error: true, message: 'This email adress is taken' });
 	});
+	return res.status(400).json({ error: true, message: 'Error while validating email' });
 };
 
 export const getAllUsers = async (req, res) => {
 	try {
-		const users = await User.find({});
+		const users = await User.find({ });
 		return res.status(201).json(users);
 	} catch (e) {
 		return res.status(400).json({ error: true, message: 'Cannot detch users' });
@@ -131,9 +136,9 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUsersByCounty = async (req, res) => {
-	const { county } = req.user;
+	const { county, id } = req.user;
 	try {
-		const users = await User.find({ county });
+		const users = await User.find({ county, _id: { $ne: id }, role: '[USER]' });
 		return res.status(200).json(users);
 	} catch (e) {
 		return res.status(400).json({ error: true, message: 'Can not fetch users' });

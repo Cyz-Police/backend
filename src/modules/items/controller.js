@@ -49,7 +49,7 @@ export const getItemById = async (req, res) => {
 			.exec();
 		return res.status(200).json(item);
 	} catch (e) {
-		return res.status(400).json({ error: true, message: 'Can not fetch item '});
+		return res.status(400).json({ error: true, message: 'Can not fetch item ' });
 	}
 };
 
@@ -57,7 +57,10 @@ export const makeCsv = async (req, res) => {
 	try {
 		const { dateFrom, dateTo } = req.params;
 		const userCountyId = await User.getUserCountyId(req.user.id);
-		const data = await Item.find({ countyCreated: userCountyId, createdAt: { $gte: dateFrom, $lt: dateTo } })
+		const data = await Item.find({
+			countyCreated: userCountyId,
+			createdAt: { $gte: dateFrom, $lt: dateTo },
+		})
 			.populate('author', 'email')
 			.populate('category', 'title')
 			.populate('category', 'title')
